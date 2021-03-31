@@ -1,0 +1,5 @@
+Naslov hrvatski / engleski
+Web aplikacija za internetski forum uz pametnu pretragu i preporuku interesnog sadržaja / Web application for internet forum with a smart search and recommendation of interesting content
+
+Zadatak
+Razviti web aplikaciju za internetski forum uz pametnu pretragu i preporuku interesnog sadržaja s obzirom na korisnikove osobne preferencije. Osim implementacije funkcionalnosti foruma i ocjenjivanja pojedine objave, potrebno je implementirati i funkcionalnost live chata između dvoje korisnika. Također, treba implementirati automatsko izvlačenje ključnih riječi iz pojedine objave koje će osigurati pametnu pretragu i preporuku interesnog sadržaja. Za razvoj poslužiteljskog dijela web aplikacije treba koristiti Django radni okvir uz proizvoljno odabran sustav za upravljanje bazama podataka. Za razvoj klijentskog dijela aplikacije treba koristiti Bootstrap java script knjižnicu s ciljem učinkovitog renderiranja aplikacije na uređajima s različitim veličinama zaslona. Također, treba opisati cjelokupni razvoj web aplikacije, kao i korištenje pripadajućih tehnologija unutar aplikacije.
