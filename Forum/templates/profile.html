@@ -6,4 +6,13 @@
     <h1>Profile page placeholder</h1>
     {{request.user}}
     <p>placeholder text</p>
+    <p>
+        {{ my_text }}, {{ my_number }}
+    </p>
+
+    <ul>
+    {% for item in list %}
+        <li>{{item}}</li>
+    {%endfor%}
+    </ul>
 {% endblock %}

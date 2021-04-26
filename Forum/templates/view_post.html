@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}
+    Detailed post view
+{% endblock %}
+{% block content %}
+    <h1>{{ thread.title }}</h1><br>
+    {% if can_delete == True %}
+        {% if "delete_thread" in request.path %}
+            <a href="delete_thread?id={{thread.id}}&delete=true">Confirm deletion!</a>
+        {% else %}
+            <a href="delete_thread?id={{thread.id}}">Delete post</a>
+        {% endif %}
+    {% endif %}
+    
+    <h3>About: </h3>
+    {{ thread.description }}<br>
+    <p>User: {{ thread.user }}</p><br>
+    <p>Tags: </p><br>
+
+    <!-- Comment submission form -->
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Post!">
+    </form>
+
+    <!-- Comment display div -->
+    <hr>
+    <div>
+        {% for comment in object_list %}
+            {{comment.user|upper}}:{{ comment.comment_content }}<br><br>
+        {% endfor %}
+    </div>
+{% endblock %}
