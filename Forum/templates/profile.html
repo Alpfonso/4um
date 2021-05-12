@@ -4,10 +4,15 @@
 {% endblock %}
 {% block content %}
     <h1>Profile page placeholder</h1>
-    {{request.user}}
-    <p>placeholder text</p>
     <p>
-        {{ my_text }}, {{ my_number }}
+        {% for profile in profile %}
+        <div class="mb-3">
+            {{profile.username}}
+        </div>
+        <div class="mb-3">
+            {{ profile.profile_description }}
+        </div>
+        {% endfor %}
     </p>
 
     <ul>

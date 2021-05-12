@@ -14,8 +14,21 @@
     
     <h3>About: </h3>
     {{ thread.description }}<br>
-    <p>User: {{ thread.user }}</p><br>
-    <p>Tags: </p><br>
+    <p>User: <a href="/profile?user={{ thread.user }}">{{thread.user}}</a></p><br>
+    <p>Score: {{thread.score}}</p>
+    {% if can_delete == True %}
+        <a href="?id={{thread.id}}&refresh_tags='True'">Get new tags</a>
+    {% endif %}
+    <p>Tags: 
+        {% for tag in tags %}
+            {%if forloop.counter0 != 4%}
+                <a href="/?tag={{tag}}">{{ tag }}</a>, 
+            {%else%}
+                <a href="/?tag={{tag}}">{{ tag }}</a>
+            {% endif %}
+            
+        {% endfor %}
+    </p><br>
 
     <!-- Comment submission form -->
     <form method="post">

@@ -5,8 +5,24 @@
 {% block content %}
     <h1>New post page placeholder</h1>
     <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Post!">
+            {% csrf_token %}
+            {% for field in form %}
+            <label class="form-label">{{field.name|title}}:</label>
+                {% if field.name == "description" %}
+                    <div class="form-group">
+                        {{ field }}
+                    </div>
+                {% else %}
+                    <div class="mb-3">
+                        {{ field }}
+                    </div>
+                {%endif%}
+                
+            {% endfor %}
+            <p>Automatic tags?<br>
+                <input type="radio" name = "radio_tag" value = "True" checked>yes<br>
+                <input type="radio" name = "radio_tag" value = "False">no
+            </p>
+            <input type="submit" value="Post!">
     </form>
 {% endblock %}
