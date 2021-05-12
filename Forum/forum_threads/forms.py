@@ -12,6 +12,14 @@ class ForumForm(forms.ModelForm):
             'description',
             'live_thread',
         ]
+        widgets = {
+            'title': forms.TextInput(attrs={
+                'class':"form-control",
+            }),
+            'description': forms.Textarea(attrs={
+                'class':"form-control",
+            }),
+        }
 
     def __init__(self, *args, **kwargs):
         self._user = kwargs.pop('user')
