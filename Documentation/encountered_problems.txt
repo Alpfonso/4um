@@ -1,0 +1,4 @@
+Django:
+- adding a new app name under installed apps(settings.py) prior to
+creating it via startapp returns module not found error/Issue 
+resolved by deleting files inside migrations(leave __init__.py)

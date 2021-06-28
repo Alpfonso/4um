@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block title %}
+    Home
+{% endblock %}
+{% block content %}
+    <!-- Content div -->
+    <div class="row">
+        <div class="btn-group mb-5" role="group" style="float: left;">
+            <form id = "sort" method="post">
+                {% csrf_token %}
+                <div class="btn-group">
+                    <select class="btn btn-secondary" name = "sort_select" id = "sort_select" >
+                        <option value="id" selected>sort</option>
+                        {% if sort_var == 'title' %}
+                            <option class="btn btn-secondary" value="title" selected>title</option>
+                        {% else %}
+                            <option class="btn btn-secondary" value="title">title</option>
+                        {% endif %}
+                        {% if sort_var == '-score' %}
+                            <option class="btn btn-secondary" value="-score" selected>score</option>
+                        {% else %}
+                            <option class="btn btn-secondary" value="-score">score</option>
+                        {% endif %}
+                    </select>
+                    <input class="btn btn-secondary"type="submit" value="sort!" name = "sort_form">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            {% for thread in page_obj %}
+                    <div class="col mb-5" >
+                        <a href="\details\?id={{thread.id}}" style="text-decoration: none; color: #000000;">
+                            <div style="background-color: rgb(192, 192, 192, 1);
+                            padding-top: 15px;
+                            padding-bottom: 20px;
+                            padding-left: 5%;
+                            padding-right: 5%;
+                            border-radius: 10px 10px 10px 10px;
+                            display: block;
+                            ">
+                                    {% if thread.live_thread %}
+                                        <button class="btn btn-secondary btn-block active" style="background-color: greenyellow; color: black;">{{ thread.title|upper }}</button>
+                                    {% else %}
+                                        <button class="btn btn-secondary btn-block active" >{{ thread.title|upper }}</button>
+                                    {% endif %}
+                                    {{ thread.thread_summary }}
+                            </div>
+                        </a>
+                    </div>
+                {% if forloop.counter == 2 or forloop.counter == 4 or forloop.counter == 6 %}
+                    </div>
+                    <div class="row">
+                {% endif %}
+                {% if forloop.counter == 8 %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        
+    </div>
+    
+    <!-- Pagination div -->
+    <div class="justify-content-center">
+        <ul class="pagination pagination-sm justify-content-center">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1&sort_type={{ sort_var }}&search_data={{ search_var }}">&laquo; First</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}&sort_type={{ sort_var }}&search_data={{ search_var }}">Previous</a>
+                </li>
+            {% endif %}
+            <!-- display current page -->
+            <li class="page-item">
+                <a class="page-link" disabled>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</a>
+            </li>
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}&sort_type={{ sort_var }}&search_data={{ search_var }}">Next</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}&sort_type={{ sort_var }}&search_data={{ search_var }}">Last &raquo;</a>
+                </li>
+                
+            {% endif %}
+        </ul>
+    </div>
+{% endblock %}

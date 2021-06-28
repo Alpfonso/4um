@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block title %}
+    Profile
+{% endblock %}
+{% block content %}
+    <p>
+        {% for profile in profile %}
+        <div class="mb-3">
+            <h1>{{profile.username}}</h1>
+        </div>
+        {% if user != request.user.username %}
+            <div class="mb-3">
+                {{ profile.profile_description }}
+            </div>
+            <a class ="btn btn-secondary" href="/room?room_name={{ profile.username }}">Chat with: {{ profile.username }}</a><br>
+        {% endif %}
+        {% endfor %}
+    </p>
+    {% if user == request.user.username %}
+        {% for profile in profile %}
+            <a class ="btn btn-secondary" href="/room?room_name={{ profile.username }}">View your chat room: {{ profile.username }}</a><br>
+        {% endfor %}
+        <div class="container">
+            <div class="row">
+                <div class="column w-75">
+                    <div style="
+                    padding-bottom: 15px;
+                    padding-top: 15px;
+                    padding-left: 15px;
+                    padding-right: 15px;">
+                        {% for profile in profile %}
+                        {{ profile.profile_description }}
+                        {% endfor %}
+                        <form method="POST" style="
+                        padding-bottom: 15px;
+                        padding-top: 15px;
+                        padding-left: 15px;
+                        padding-right: 15px;">
+                            {% csrf_token %}
+                            {% for field in form %}
+                                {{ field }}
+                            {% endfor %}
+                            <input class="btn btn-primary" type="submit" value="Submit!">
+                        </form>
+                    </div>
+                </div>
+                <div class="column w-25 justify-content-end" >
+                    <div style="background-color: #a05f5f69;
+                    border-radius: 15px 15px 15px 15px; display: block;
+                    padding-bottom: 15px;
+                    padding-top: 15px;
+                    padding-left: 15px;
+                    padding-right: 15px;">
+                        Suggested users based on simmilar tags:<br>
+                        {% for profile in profile_list %}
+                            <a href="/profile?user={{ profile }}">{{ profile }}</a><br>
+                        {% endfor %}
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        
+    {% endif %}
+    <ul>
+    {% for item in list %}
+        <li>{{item}}</li>
+    {%endfor%}
+    </ul>
+{% endblock %}

@@ -1,0 +1,54 @@
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+    <!--<a class="navbar-brand" href="#">Navbar</a>-->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'Home' %}">Home</a>
+        </li>
+        {% if request.user.username %}
+          <li class="nav-item">
+              <a class="nav-link" href="/profile?user={{ request.user }}">Profile({{request.user.username}})</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="{% url 'New Post' %}">New Post</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'Logout' %}">Logout</a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+              <a class="nav-link" href="{% url 'Login' %}">Login</a>
+          </li>
+        {% endif %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'Register' %}">Register</a>
+        </li>
+      </ul>
+      {% if request.user.username %}
+        <form class="form-inline my-2 my-lg-0" method="GET" action="/">
+          {% if search_var %}
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" 
+          name="search_data" id="search_data" value="{{search_var}}">
+          {% else %}
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" 
+          name="search_data" id="search_data">
+          {% endif %}
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+      {% endif %}
+      {% if request.get_full_path == "/" or "/details" in request.get_full_path %}
+          <a class="nav-link" disabled>Remaining votes: {{vote.vote_amount}}</a>
+      {% endif %}
+      <!--
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    -->
+    </div>
+</nav>
