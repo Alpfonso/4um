@@ -39,6 +39,11 @@ class CommentForm(forms.ModelForm):
         fields = [
             'comment_content',
         ]
+        widgets = {
+            'comment_content': forms.Textarea(attrs={
+                'class':"form-control",
+            }),
+        }
 
     def __init__(self, *args, **kwargs):
         self._user = kwargs.pop('user')

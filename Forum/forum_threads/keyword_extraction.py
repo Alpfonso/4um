@@ -9,22 +9,23 @@ from nltk.tokenize import word_tokenize
 from nltk.stem.porter import PorterStemmer
 
 import json
+from nltk.util import pr
 
 # Summa textrank
-from summa import keywords
-
+from summa import keywords, summarizer
+from django.core import serializers
 
 def initialize(form_doc, update_tf):
     
     doc_idf = form_doc
     f = open("stopwords.txt", "r")
-    #f.write(sb)
+
     file_stopwords = f.read()
     f.close()
     list_set = stopwords.words('english') + file_stopwords.split()
-    #print(list_set)
+
     stop_words = set(list_set) 
-    #print(stop_words)
+
 
     doc_idf = doc_idf.lower()
     
@@ -40,29 +41,26 @@ def initialize(form_doc, update_tf):
     doc_tf = f_doc.read()
     f_doc.close()
 
-    tokens = word_tokenize(doc_tf) #doc_tf.split() NOTE: might need to be changed if word_tokenize doesn't work
-    tokens = nltk.pos_tag(tokens)
-    tokens = [s for (s, p) in tokens if p == 'NN']  #Grab only nouns
-    words = [word for word in tokens if word.isalpha()]
-    
+    tokens = word_tokenize(doc_tf)
 
-    porter = PorterStemmer()
-    stemmed = [porter.stem(word) for word in words]
 
-    total_words_tf = stemmed
+    total_words_tf = tokens #stemmed 
     total_word_length_tf = len(total_words_tf)
     ######################################
 
     total_words_idf = doc_idf.split()
-    #total_word_length_idf = len(total_words_idf)
+
 
 
     
 
     total_sentences = tokenize.sent_tokenize(doc_idf)
     total_sent_len = len(total_sentences)
+    
 
-    #sb = ""
+    f_doc = open("token.txt", "w")
+    f_doc.write(' '.join(total_words_tf))
+    f_doc.close()
     tf_score = {}
     for each_word in total_words_tf:
         each_word = each_word.replace('.','')
@@ -81,13 +79,7 @@ def initialize(form_doc, update_tf):
                     tf_score[each_word] += 1
                 else:
                     tf_score[each_word] = 1
-                #sb += each_word + " "
 
-    #####
-    #f = open("demofile2.txt", "a")
-    #f.write(sb)
-    #f.close()
-    #####
     # Dividing by total_word_length for each dictionary element
     tf_score.update((x, y/int(total_word_length_tf)) for x, y in tf_score.items())
 
@@ -143,9 +135,12 @@ def get_top_n(dict_elem, n):
 
 def textrank(form_doc):
     result = keywords.keywords(form_doc, words=5)
+    thread_sum = summarizer.summarize(form_doc, words = 30)
+    print(thread_sum)
     f = open("keyword_comparison.txt", "a")
     f.write("\nTextrank algorithm\n")
     f.write(result)
     f.close()
     print(result)
+    return thread_sum
 

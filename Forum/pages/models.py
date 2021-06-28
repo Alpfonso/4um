@@ -1,4 +1,7 @@
+from datetime import timezone
+from django.contrib.auth.models import update_last_login
 from django.db import models
+import django.utils.timezone
 import json
 
 # Create your models here.
@@ -8,8 +11,12 @@ class Profile(models.Model):
     vote_amount = models.IntegerField(default=100)
     common_user_tags = models.CharField(default='["none"]', max_length=200)
     user_tag_collection = models.TextField(default='["none"]')
+    last_online = models.DateField(default=django.utils.timezone.datetime.now)
 
-    def vote_points(self):
+    def set_vote_points(self, vote):
+        self.vote_amount -= vote
+
+    def reset_votes(self):
         self.vote_amount = 100
 
     def set_tags(self, tag_list):
@@ -40,3 +47,6 @@ class Profile(models.Model):
         #else:
             #print("Empty variable")
             #return False
+
+    def set_last_login(self):
+        self.last_online = str(django.utils.timezone.datetime.now().date())

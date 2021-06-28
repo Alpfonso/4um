@@ -10,27 +10,40 @@
         <li class="nav-item active">
           <a class="nav-link" href="{% url 'Home' %}">Home</a>
         </li>
-        <li class="nav-item">
-          {% if request.user.username%}
-            <a class="nav-link" href="/profile?user={{ request.user }}">Profile({{request.user.username}})</a>
-          {% endif %}
-          
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'New Post' %}">New Post</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'Login' %}">Login</a>
-        </li>
+        {% if request.user.username %}
+          <li class="nav-item">
+              <a class="nav-link" href="/profile?user={{ request.user }}">Profile({{request.user.username}})</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="{% url 'New Post' %}">New Post</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'Logout' %}">Logout</a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+              <a class="nav-link" href="{% url 'Login' %}">Login</a>
+          </li>
+        {% endif %}
         <li class="nav-item">
             <a class="nav-link" href="{% url 'Register' %}">Register</a>
         </li>
       </ul>
-      <div class="position-absolute end-0"><!-- TODO: show rated threads -->
-        {% if request.get_full_path == "/" %}
-          Remaining votes: {{vote.vote_amount}}
-        {% endif %}
-      </div>
+      {% if request.user.username %}
+        <form class="form-inline my-2 my-lg-0" method="GET" action="/">
+          {% if search_var %}
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" 
+          name="search_data" id="search_data" value="{{search_var}}">
+          {% else %}
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" 
+          name="search_data" id="search_data">
+          {% endif %}
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+      {% endif %}
+      {% if request.get_full_path == "/" or "/details" in request.get_full_path %}
+          <a class="nav-link" disabled>Remaining votes: {{vote.vote_amount}}</a>
+      {% endif %}
       <!--
       <form class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">

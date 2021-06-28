@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% block title %}
-    Home
+    New Post
 {% endblock %}
 {% block content %}
-    <h1>New post page placeholder</h1>
+    <h1>New post</h1>
     <form method="post">
             {% csrf_token %}
             {% for field in form %}
@@ -19,10 +19,7 @@
                 {%endif%}
                 
             {% endfor %}
-            <p>Automatic tags?<br>
-                <input type="radio" name = "radio_tag" value = "True" checked>yes<br>
-                <input type="radio" name = "radio_tag" value = "False">no
-            </p>
-            <input type="submit" value="Post!">
+            
+            <input class="btn btn-primary" type="submit" value="Post!">
     </form>
 {% endblock %}

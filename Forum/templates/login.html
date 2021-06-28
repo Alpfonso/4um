@@ -3,11 +3,20 @@
     Login
 {% endblock %}
 {% block content %}
-    <h1>Login page placeholder</h1>
-    <p>placeholder text</p>
-    <form method="post">
+    <h1>Login</h1>
+    <p>Login using your account credidentials<br>
+    Alternatively, create a new account <a href="/register"><button class="btn btn-primary">here!</button></a></p>
+    <form class ="form-control" method="post">
         {% csrf_token %}
-        {{ form }}
-        <input type="submit" value="Submit">
-    </form>
+        {% for field in form %}
+          <p>
+            {{ field.label_tag }}<br>
+            {{ field }}
+          </p>
+        {% endfor %}
+        {% if form.errors %}
+            <p style="color: red;">Your username and password didn't match. Please try again.</p>
+        {% endif %}
+        <button class ="btn btn-primary" type="submit">Sign in</button>
+      </form>
 {% endblock %}
